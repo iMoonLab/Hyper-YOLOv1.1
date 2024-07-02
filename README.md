@@ -58,31 +58,49 @@ coco
 ```
 
 ## Training
-Most of training configurations can change in the "Train settings" section of ultralytics/cfg/default.yaml. 
+Training configurations can be modified within the argument parser of “train.py” or “train_dual.py”.
 The key factors are model, data, img, epoches, batch, device and training hyperparameters.
-For example, you can use "model: hyper-yolon.yaml" to train an object detection model.
+For instance, you can employ “yolov9-s-hyper.yaml” to train the “Hyper-YOLOv1.1-S” object detection model, and subsequently use “convert.py” along with “gelan-s-hyper.yaml” to remove the auxiliary reversible branch.
+Single GPU training
 ```bash
-python ultralytics/models/yolo/detect/train.py 
+# train yolov9-s-hyper models
+python train_dual.py --workers 8 --device 0 --batch 16 --data data/coco.yaml --img 640 --cfg models/detect/yolov9-s-hyper.yaml --weights '' --name yolov9-s-hyper --hyp hyp.scratch-low.yaml --epochs 500 
+
+# train gelan-s-hyper models
+# python train.py --workers 8 --device 0 --batch 32 --data data/coco.yaml --img 640 --cfg models/detect/gelan-s-hyper.yaml --weights '' --name gelan-s-hyper --hyp hyp.scratch-low.yaml --epochs 500
+```
+Multiple GPU training
+```bash
+# train yolov9-s-hyper models
+python -m torch.distributed.run --nproc_per_node 8 --master_port 9527 train_dual.py --workers 8 --device 0,1,2,3,4,5,6,7 --sync-bn --batch 128 --data data/coco.yaml --img 640 --cfg models/detect/yolov9-s-hyper.yaml --weights '' --name yolov9-s-hyper --hyp hyp.scratch-low.yaml --epochs 500 
+
+# train gelan-s-hyper models
+# python -m torch.distributed.run --nproc_per_node 4 --master_port 9527 train.py --workers 8 --device 0,1,2,3 --sync-bn --batch 128 --data data/coco.yaml --img 640 --cfg models/detect/gelan-s-hyper.yaml --weights '' --name gelan-s-hyper --hyp hyp.scratch-low.yaml --epochs 500
 ```
 
 ## Evaluation
-Most of evaluation configurations can change in the "Val/Test settings" section of ultralytics/cfg/default.yaml. 
 The key factors are model(weight), data, img, batch, conf, iou, half.
 ```bash
-# evaluate converted yolov9-t-hyper models
-python val.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './yolov9-t-hyper-converted.pt' --save-json --name yolov9_c_c_640_val
+# evaluate converted yolov9-s-hyper models
+python val.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './yolov9-s-hyper-converted.pt' --save-json --name yolov9_s_hyper_c_640_val
 
-# evaluate yolov9 models
-# python val_dual.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './yolov9-c.pt' --save-json --name yolov9_c_640_val
+# evaluate yolov9-s-hyper models
+# python val_dual.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './yolov9-s-hyper.pt' --save-json --name yolov9_s_hyper_640_val
 
-# evaluate gelan models
-# python val.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './gelan-c.pt' --save-json --name gelan_c_640_val
+# evaluate gelan-s-hyper models
+# python val.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './gelan-s-hyper.pt' --save-json --name gelan_s_hyper_640_val
 ```
 ### Detection
-Most of predict configurations can change in the "Predict settings" section of ultralytics/cfg/default.yaml.
 The key factors are model(weight), source, img, conf, iou.
 ```bash
-python ultralytics/models/yolo/detect/predict.py
+# inference converted yolov9-s-hyper models
+python detect.py --source './data/images/horses.jpg' --img 640 --device 0 --weights './yolov9-s-hyper-converted.pt' --name yolov9_s_hyper_c_640_detect
+
+# inference yolov9 model
+# python detect_dual.py --source './data/images/horses.jpg' --img 640 --device 0 --weights './yolov9-s-hyper.pt' --name yolov9_s_hyper_640_detect
+
+# inference gelan models
+# python detect.py --source './data/images/horses.jpg' --img 640 --device 0 --weights './gelan-s-hyper.pt' --name gelan_s_hyper_640_detect
 ```
 
 ![Detection](docs/vis_det.jpg)
