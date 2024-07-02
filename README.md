@@ -69,7 +69,14 @@ python ultralytics/models/yolo/detect/train.py
 Most of evaluation configurations can change in the "Val/Test settings" section of ultralytics/cfg/default.yaml. 
 The key factors are model(weight), data, img, batch, conf, iou, half.
 ```bash
-python ultralytics/models/yolo/detect/val.py
+# evaluate converted yolov9-t-hyper models
+python val.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './yolov9-t-hyper-converted.pt' --save-json --name yolov9_c_c_640_val
+
+# evaluate yolov9 models
+# python val_dual.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './yolov9-c.pt' --save-json --name yolov9_c_640_val
+
+# evaluate gelan models
+# python val.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.7 --device 0 --weights './gelan-c.pt' --save-json --name gelan_c_640_val
 ```
 ### Detection
 Most of predict configurations can change in the "Predict settings" section of ultralytics/cfg/default.yaml.
