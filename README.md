@@ -34,10 +34,10 @@ Then install requirements.txt in a Python>=3.8.0 environment, including PyTorch>
 The command is as follows.
 
 ```bash
-git clone https://github.com/iMoonLab/Hyper-YOLO.git  # clone
-cd Hyper-YOLO
-conda create -n Hyper-YOLO python=3.8
-conda activate Hyper-YOLO
+git clone https://github.com/iMoonLab/Hyper-YOLOv1.1.git  # clone
+cd Hyper-YOLOv1.1
+conda create -n Hyper-YOLOv1.1 python=3.8
+conda activate Hyper-YOLOv1.1
 pip install -r requirements.txt  # install
 ```
 You can also use the environment.yaml file and the conda command to install the required environment.
@@ -46,7 +46,7 @@ conda env create -f environment.yaml
 ```
 
 ## Datasets
-Data Preparation: Download the MS COCO dataset images (training, validation, and test sets) and corresponding labels, or prepare your custom dataset as shown below. Additionally, modify the dataset path in ultralytics/cfg/datasets/coco.yaml to reflect the location of your data.
+Data Preparation: Download the MS COCO dataset images (training, validation, and test sets) and corresponding labels, or prepare your custom dataset as shown below. Additionally, modify the dataset path in data/coco.yaml to reflect the location of your data.
 ```bash
 coco
 --images
@@ -59,8 +59,9 @@ coco
 
 ## Training
 Training configurations can be modified within the argument parser of “train.py” or “train_dual.py”.
+You can adjust the training hyperparameters in the `data/hyps/hyp.scratch-XXX.yaml` file. Here, `XXX` can be set to `low`, `med`, or `high`, which correspond to low, medium, and high levels of data augmentation, respectively.
 The key factors are model, data, img, epoches, batch, device and training hyperparameters.
-For instance, you can employ “yolov9-s-hyper.yaml” to train the “Hyper-YOLOv1.1-S” object detection model, and subsequently use “convert.py” along with “gelan-s-hyper.yaml” to remove the auxiliary reversible branch.
+For instance, you can employ “yolov9-s-hyper.yaml” to train the “Hyper-YOLOv1.1-S” object detection model, and subsequently use “convert.py” along with “gelan-s-hyper.yaml” to remove the Auxiliary Reversible Branch.
 Single GPU training
 ```bash
 # train yolov9-s-hyper models
