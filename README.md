@@ -31,7 +31,6 @@ We replace the neck of [YOLOv9](https://github.com/WongKinYiu/yolov9) with the p
 
 Clone repo and create conda environment (recommended).
 Then install requirements.txt in a Python>=3.8.0 environment, including PyTorch>=1.8.
-The command is as follows.
 
 ```bash
 git clone https://github.com/iMoonLab/Hyper-YOLOv1.1.git  # clone
@@ -60,9 +59,14 @@ coco
 ## Training
 Training configurations can be modified within the argument parser of “train.py” or “train_dual.py”.
 You can adjust the training hyperparameters in the `data/hyps/hyp.scratch-XXX.yaml` file. Here, `XXX` can be set to `low`, `med`, or `high`, which correspond to low, medium, and high levels of data augmentation, respectively.
+```bash
+python train.py  --hyp hyp.scratch-low.yaml
+                    hyp.scratch-med.yaml
+                    hyp.scratch-high.yaml
+```
 The key factors are model, data, img, epoches, batch, device and training hyperparameters.
-For instance, you can employ “yolov9-s-hyper.yaml” to train the “Hyper-YOLOv1.1-S” object detection model, and subsequently use “convert.py” along with “gelan-s-hyper.yaml” to remove the Auxiliary Reversible Branch.
-Single GPU training
+For instance, you can employ “yolov9-s-hyper.yaml” to train the “HyperYOLOv1.1-S” object detection model, and subsequently use “convert.py” along with “gelan-s-hyper.yaml” to remove the Auxiliary Reversible Branch.
+# Single GPU training
 ```bash
 # train yolov9-s-hyper models
 python train_dual.py --workers 8 --device 0 --batch 16 --data data/coco.yaml --img 640 --cfg models/detect/yolov9-s-hyper.yaml --weights '' --name yolov9-s-hyper --hyp hyp.scratch-low.yaml --epochs 500 
@@ -70,7 +74,7 @@ python train_dual.py --workers 8 --device 0 --batch 16 --data data/coco.yaml --i
 # train gelan-s-hyper models
 # python train.py --workers 8 --device 0 --batch 32 --data data/coco.yaml --img 640 --cfg models/detect/gelan-s-hyper.yaml --weights '' --name gelan-s-hyper --hyp hyp.scratch-low.yaml --epochs 500
 ```
-Multiple GPU training
+# Multiple GPU training
 ```bash
 # train yolov9-s-hyper models
 python -m torch.distributed.run --nproc_per_node 8 --master_port 9527 train_dual.py --workers 8 --device 0,1,2,3,4,5,6,7 --sync-bn --batch 128 --data data/coco.yaml --img 640 --cfg models/detect/yolov9-s-hyper.yaml --weights '' --name yolov9-s-hyper --hyp hyp.scratch-low.yaml --epochs 500 
@@ -111,8 +115,8 @@ python detect.py --source './data/images/horses.jpg' --img 640 --device 0 --weig
 ![Detection](docs/vis_seg.jpg)
 
 ## Export
+Please refer to YOLOv8 or YOLOv9.
 
-## Re-parameterization
 
 # Citation
 If you find our work useful in your research, please consider citing:
