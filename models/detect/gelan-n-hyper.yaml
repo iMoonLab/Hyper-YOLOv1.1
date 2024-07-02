@@ -1,0 +1,78 @@
+# YOLOv9
+
+# parameters
+nc: 80  # number of classes
+depth_multiple: 1.0  # model depth multiple
+width_multiple: 1.0  # layer channel multiple
+#activation: nn.LeakyReLU(0.1)
+#activation: nn.ReLU()
+
+# anchors
+anchors: 3
+
+# gelan backbone
+backbone:
+  [
+   # conv down
+   [-1, 1, Conv, [16, 3, 2]],  # 0-P1/2
+   # conv down
+   [-1, 1, Conv, [32, 3, 2]],  # 1-P2/4
+
+   # elan-1 block
+   [-1, 1, RepNCSPELAN4, [64, 32, 16, 1]],  # 2
+
+   # avg-conv down
+   [-1, 1, ADown, [64]],  # 3-P3/8
+
+   # elan-2 block
+   [-1, 1, RepNCSPELAN4, [128, 64, 32, 1]],  # 4
+
+   # avg-conv down
+   [-1, 1, ADown, [128]],  # 5-P4/16
+
+   # elan-2 block
+   [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]],  # 6
+
+   # avg-conv down
+   [-1, 1, ADown, [128]],  # 7-P5/16
+
+   # elan-2 block
+   [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]],  # 8
+  ]
+
+# gelan head
+head:
+  [
+   # elan-spp block
+   [-1, 1, SPPELAN, [128, 64]],  # 9
+
+   [0, 1, nn.AvgPool2d, [8, 8, 0]], # 10
+   [2, 1, nn.AvgPool2d, [4, 4, 0]], # 11
+   [4, 1, nn.AvgPool2d, [2, 2, 0]], # 12
+   [9, 1, nn.Upsample, [None, 2, 'nearest']], # 13
+   [[10, 11, 12, 6, 13], 1, Concat, [1]], # 14
+   [-1, 1, Conv, [128, 1, 1]], # 15
+   [-1, 1, HyperComputeModule, [128]], # 16
+   [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]], # 17
+
+   [-1, 1, nn.AvgPool2d, [2, 2, 0]], # 18
+   [[-1, 9], 1, Concat, [1]], # 19
+   [-1, 1, Conv, [128, 1, 1]], # 20
+
+   [[17, 6], 1, Concat, [1]], # 21
+   [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]], # 22
+
+   [17, 1, nn.Upsample, [None, 2, 'nearest']], # 23
+   [[-1, 4], 1, Concat, [1]], # 24
+   [-1, 1, RepNCSPELAN4, [64, 64, 32, 1]], # 25 小
+
+   [-1, 1, ADown, [64]], # 26
+   [[-1, 22], 1, Concat, [1]], # 27
+   [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]], # 28 中
+
+   [-1, 1, ADown, [128]], # 29
+   [[-1, 20], 1, Concat, [1]], # 30
+   [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]], # 31 大
+
+   [[25, 28, 31], 1, DDetect, [nc]], # 32
+  ]
