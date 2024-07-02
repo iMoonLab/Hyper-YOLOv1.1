@@ -40,11 +40,11 @@ We replace the neck of [YOLOv9](https://github.com/WongKinYiu/yolov9) with the p
 
 ### Detection
 
-![Detection](docs/vis_det.png)
+![Detection](docs/vis_det.jpg)
 
 ### Segmentation
 
-![Detection](docs/vis_seg.png)
+![Detection](docs/vis_seg.jpg)
 
 ## Export
 
