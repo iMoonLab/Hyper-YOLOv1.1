@@ -22,7 +22,7 @@ We replace the neck of [YOLOv9](https://github.com/WongKinYiu/yolov9) with the p
 | YOLOv9-C         | 640       | 53.0 | 70.2 | 25.3M  | 102.1G  |
 | Hyper-YOLOv1.1-T | 640       | 40.3 | 55.6 | 2.5M   | 10.8G   |
 | Hyper-YOLOv1.1-S | 640       | 48.0 | 64.5 | 7.6M   | 29.9G   |
-| Hyper-YOLOv1.1-M | 640       | 51.8 | 69.2 | 21.2M  | 87.4G   |
+| Hyper-YOLOv1.1-M | 640       | 51.9 | 69.1 | 21.2M  | 87.4G   |
 | Hyper-YOLOv1.1-C | 640       | 53.2 | 70.4 | 29.8M  | 115.5G  |
 
 
