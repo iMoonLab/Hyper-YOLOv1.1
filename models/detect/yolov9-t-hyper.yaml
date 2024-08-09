@@ -48,16 +48,19 @@ head:
   [
    # elan-spp block
    [-1, 1, SPPELAN, [128, 64]],  # 10
-
+   # Semantic Collecting
    [1, 1, nn.AvgPool2d, [8, 8, 0]], # 11
    [3, 1, nn.AvgPool2d, [4, 4, 0]], # 12
    [5, 1, nn.AvgPool2d, [2, 2, 0]], # 13
    [10, 1, nn.Upsample, [None, 2, 'nearest']], # 14
    [[11, 12, 13, 7, 14], 1, Concat, [1]], # 15
+
+   # Hypergraph Computation
    [-1, 1, Conv, [128, 1, 1]], # 16
    [-1, 1, HyperComputeModule, [128]], # 17
    [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]], # 18
 
+   # Semantic Scattering
    [-1, 1, nn.AvgPool2d, [2, 2, 0]], # 19
    [[-1, 10], 1, Concat, [ 1 ]], # 20
    [-1, 1, Conv, [128, 1, 1]], # 21
