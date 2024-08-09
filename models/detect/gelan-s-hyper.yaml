@@ -10,7 +10,7 @@ width_multiple: 1.0  # layer channel multiple
 # anchors
 anchors: 3
 
-# gelan backbone
+# backbone
 backbone:
   [
    # conv down
@@ -40,7 +40,7 @@ backbone:
    [-1, 1, RepNCSPELAN4, [256, 256, 128, 1]],  # 8
   ]
 
-# gelan head
+# head
 head:
   [
    # elan-spp block
