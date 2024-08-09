@@ -10,7 +10,7 @@ width_multiple: 1.0  # layer channel multiple
 # anchors
 anchors: 3
 
-# YOLOv9 backbone
+# HyperYOLOv1.1 backbone
 backbone:
   [
    [-1, 1, Silence, []],
@@ -43,7 +43,7 @@ backbone:
    [-1, 1, RepNCSPELAN4, [128, 128, 64, 1]],  # 9
   ]
 
-# YOLOv9 head
+# HyperYOLOv1.1 head
 head:
   [
    # elan-spp block
