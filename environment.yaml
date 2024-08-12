@@ -1,4 +1,4 @@
-name: Hyper-YOLO
+name: Hyper-YOLOv1.1
 channels:
   - defaults
 dependencies:
@@ -188,4 +188,4 @@ dependencies:
       - zc-lockfile==3.0.post1
       - zipp==3.15.0
       - zope-interface==6.0
-prefix: /home/XXX/anaconda3/envs/Hyper-YOLO
+prefix: /home/XXX/anaconda3/envs/Hyper-YOLOv1.1
