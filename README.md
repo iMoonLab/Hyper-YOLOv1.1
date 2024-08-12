@@ -62,8 +62,8 @@ The key factors are model, data, img, epoches, batch, device and training hyperp
 You can adjust the training hyperparameters in the `data/hyps/hyp.scratch-XXX.yaml` file. Here, `XXX` can be set to `low`, `med`, or `high`, which correspond to low, medium, and high levels of data augmentation, respectively.
 ```bash
 python train.py  --hyp hyp.scratch-low.yaml
-                    hyp.scratch-med.yaml
-                    hyp.scratch-high.yaml
+                       hyp.scratch-med.yaml
+                       hyp.scratch-high.yaml
 ```
 For instance, you can employ “yolov9-s-hyper.yaml” to train the “HyperYOLOv1.1-S” object detection model, and subsequently use “convert.py” along with “gelan-s-hyper.yaml” to remove the Auxiliary Reversible Branch.
 #### Single GPU training
