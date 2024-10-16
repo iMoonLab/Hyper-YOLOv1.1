@@ -5,7 +5,7 @@ In this repository, we provide the implementation of Hyper-YOLO v1.1, which inte
 
 <div align="center">
     <a href="./">
-        <img src="docs/performance.png" width="79%"/>
+        <img src="docs/performance_v11.jpg" width="40%">
     </a>
 </div>
 
